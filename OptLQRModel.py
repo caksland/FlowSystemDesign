@@ -163,8 +163,9 @@ phases[-1].add_objective('J', loc='final',ref0=0,ref=10)
 
 
 
-#%% set initial default values to appease openmdao
-p.model.set_input_defaults('traj.parameters:rho', val=rho)
+#%% set initial default values to appease openmdao 3.23.0 and dymos 1.6.1
+## UNCOMMMENT IF RUNNING IN NEWER OPENMDAO AND DYMOS VERSIONS
+# p.model.set_input_defaults('traj.parameters:rho', val=rho)
 
 
 
