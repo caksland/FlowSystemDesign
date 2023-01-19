@@ -35,7 +35,9 @@ d_ =  [.1,25,600,400,700,300] # disturbances
 dLpulse =  [400,1500,700,1000] # other distrubnaces
 xlim = [150,150,150,50,55,60,65] # state limits
 
-
+nAll = np.ones(682) #np.arange(682)+1
+L = nAll/sum(nAll)
+rho = np.concatenate((np.array([1]),V@L),axis=0)
 
 #%% Setup Problem
 
@@ -159,6 +161,13 @@ for cnt,phase in enumerate(phases):
 # phases[-1].add_objective('time', loc='final',ref0=0,ref=100)
 phases[-1].add_objective('J', loc='final',ref0=0,ref=10)
 
+
+
+#%% set initial default values to appease openmdao
+p.model.set_input_defaults('traj.parameters:rho', val=rho)
+
+
+
 #%% setup model   
 tic = time.time()
 p.setup(force_alloc_complex=False)
@@ -175,9 +184,7 @@ for cnt,phase in enumerate(phases):
     p.set_val('traj.phase{}.states:TMS_x7'.format(cnt), phase.interp('TMS_x7', ys=xi[cnt:cnt+2]))
     p.set_val('traj.phase{}.states:J'.format(cnt), phase.interp('J', ys=[0,10]))
 
-nAll = np.ones(682) #np.arange(682)+1
-L = nAll/sum(nAll)
-rho = np.concatenate((np.array([1]),V@L),axis=0)
+
 p.set_val('L',L)
 p.set_val('Q',np.eye(7))
 p.set_val('R',10000*np.ones(39))

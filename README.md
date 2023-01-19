@@ -14,8 +14,13 @@ Package versions:
 dymos 1.2.0
 openmdao 3.16.0
 
-NOTE. there is a manual bug fix that is required for the code to run.
+NOTE 1. there is a manual bug fix that is required for the code to run.
 in trajectory.py, the the add_parameter function definition needs to 
 specify None units as default:
 e.g.
 def add_parameter(self, name, units=None, val=_unspecified, desc=_unspecified, opt=False,
+
+NOTE 2. I've also run the code in the latest version of dymos and openmdao
+dymos 1.6.1
+openmdao 3.23.0
+and the setup time is still slow. However, the optimization does not complete.
